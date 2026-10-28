@@ -11,8 +11,8 @@ export async function GET(req: Request) {
   const page = (title: string, body: string) =>
     new Response(
       `<!doctype html><meta name="viewport" content="width=device-width"><title>${title}</title>
-       <body style="font-family:system-ui;background:#05070d;color:#e2e8f0;display:grid;place-items:center;min-height:100vh;margin:0">
-       <div style="text-align:center;padding:24px"><h1>${title}</h1><p>${body}</p><p><a style="color:#34d399" href="/tech">Open tech panel →</a></p></div></body>`,
+       <body style="font-family:system-ui;background:#f8fafc;color:#0f172a;display:grid;place-items:center;min-height:100vh;margin:0">
+       <div style="text-align:center;padding:24px"><h1>${title}</h1><p>${body}</p><p><a style="color:#1d4ed8" href="/tech">Open tech panel →</a></p></div></body>`,
       { headers: { "content-type": "text/html; charset=utf-8" } },
     );
 

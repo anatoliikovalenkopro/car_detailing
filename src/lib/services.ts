@@ -34,7 +34,7 @@ export type Service = {
 export const SERVICES: Service[] = [
   {
     id: "express-wash",
-    name: "Express Glow Wash",
+    name: "Express Wash",
     kind: "package",
     tagline: "Hand wash that makes Monday feel like Friday.",
     includes: [
@@ -63,7 +63,7 @@ export const SERVICES: Service[] = [
   },
   {
     id: "full-glow",
-    name: "Full Glow Detail",
+    name: "Full Detail",
     kind: "package",
     tagline: "Inside + out. The one everybody books.",
     includes: [
@@ -138,7 +138,7 @@ export const SERVICES: Service[] = [
   },
   {
     id: "glow-club",
-    name: "Glow Club (monthly)",
+    name: "Monthly Maintenance",
     kind: "package",
     tagline: "Monthly maintenance visit for returning clients.",
     includes: [

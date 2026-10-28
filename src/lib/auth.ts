@@ -2,7 +2,7 @@ import "server-only";
 import { createHash, createHmac, timingSafeEqual } from "crypto";
 import { cookies } from "next/headers";
 
-export const SESSION_COOKIE = "ng_tech";
+export const SESSION_COOKIE = "tech_session";
 const SESSION_HOURS = 12;
 
 function secret(): string {

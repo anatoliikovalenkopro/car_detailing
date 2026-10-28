@@ -81,7 +81,7 @@ function bookingTable(b: Booking): string {
 }
 
 const button = (href: string, label: string) =>
-  `<a href="${href}" style="display:inline-block;background:#10b981;color:#04130d;padding:12px 20px;border-radius:10px;font-weight:700;text-decoration:none;font-family:sans-serif">${label}</a>`;
+  `<a href="${href}" style="display:inline-block;background:#1d4ed8;color:#ffffff;padding:12px 20px;border-radius:10px;font-weight:700;text-decoration:none;font-family:sans-serif">${label}</a>`;
 
 /** New booking request → owner gets an email with a one-click confirm button. */
 export async function notifyOwnerNewBooking(b: Booking) {
@@ -135,6 +135,6 @@ export async function notifyCustomerArrived(b: Booking) {
 export async function notifyCustomerCompleted(b: Booking) {
   await sendSms(
     b.phone,
-    `${BRAND.name}: all done — enjoy the glow ✨ A quick Google review or Instagram tag @${BRAND.instagram} would mean the world to us!`,
+    `${BRAND.name}: all done — enjoy your clean car ✨ A quick Google review or Instagram tag @${BRAND.instagram} would mean the world to us!`,
   );
 }

@@ -1,5 +1,6 @@
 import "server-only";
 import { randomBytes } from "crypto";
+import { BRAND } from "./brand";
 import { kv } from "./store";
 import type { VehicleSize } from "./services";
 
@@ -41,10 +42,10 @@ export type TechLocation = { lat: number; lng: number; at: string; accuracy?: nu
 const INDEX = "bookings";
 
 export function newId(): string {
-  // Short, readable booking reference, e.g. NG-7K3P9Q
+  // Short, readable booking reference, e.g. GS-7K3P9Q
   const alphabet = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
   const bytes = randomBytes(6);
-  return "NG-" + [...bytes].map((b) => alphabet[b % alphabet.length]).join("");
+  return `${BRAND.idPrefix}-` + [...bytes].map((b) => alphabet[b % alphabet.length]).join("");
 }
 
 export function newToken(): string {

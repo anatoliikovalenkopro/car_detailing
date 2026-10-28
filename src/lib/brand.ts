@@ -1,12 +1,16 @@
+// Change the business name here — the whole site, emails, SMS and the chat
+// assistant use these values.
 export const BRAND = {
-  name: "NorthGlow",
-  full: "NorthGlow Mobile Detailing",
-  tagline: "The shine comes to you.",
+  name: "Glossmith",
+  full: "Glossmith Mobile Detailing",
+  tagline: "Pro detailing at your door.",
   city: "Edmonton & area",
   phone: process.env.NEXT_PUBLIC_PHONE || "(587) 000-0000",
-  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@northglow.ca",
-  instagram: process.env.NEXT_PUBLIC_INSTAGRAM || "northglow.yeg",
+  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@glossmith.ca",
+  instagram: process.env.NEXT_PUBLIC_INSTAGRAM || "glossmith.yeg",
   hours: "Mon–Sat, 8am – 7pm",
+  /** Prefix for booking reference numbers, e.g. GS-7K3P9Q */
+  idPrefix: "GS",
 };
 
 // Edmonton city centre — default map view

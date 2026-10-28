@@ -24,11 +24,11 @@ export default function TechLogin() {
   }
 
   return (
-    <div className="mx-auto max-w-sm px-4 py-28">
-      <form onSubmit={submit} className="glass rounded-3xl p-8">
+    <div className="mx-auto max-w-sm px-4 py-16">
+      <form onSubmit={submit} className="card p-6">
         <p className="text-4xl">🔒</p>
-        <h1 className="mt-4 font-display text-2xl font-bold">Team panel</h1>
-        <p className="mt-1 text-sm text-slate-400">Technicians only.</p>
+        <h1 className="mt-3 text-2xl font-extrabold">Team panel</h1>
+        <p className="mt-1 text-sm text-muted">Technicians only.</p>
         <label className="label mt-6" htmlFor="pw">Password</label>
         <input
           id="pw"
@@ -40,7 +40,7 @@ export default function TechLogin() {
           autoFocus
           required
         />
-        {error && <p className="mt-3 text-sm text-red-300">{error}</p>}
+        {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
         <button className="btn-primary mt-6 w-full" disabled={busy || !password}>
           {busy ? "Checking…" : "Unlock"}
         </button>

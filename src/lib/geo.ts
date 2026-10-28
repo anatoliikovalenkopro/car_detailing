@@ -28,7 +28,7 @@ export async function geocode(address: string): Promise<{ lat: number; lng: numb
   url.searchParams.set("viewbox", "-114.3,53.9,-112.9,53.1");
   try {
     const res = await fetch(url, {
-      headers: { "User-Agent": "NorthGlowMobileDetailing/1.0 (booking geocoder)" },
+      headers: { "User-Agent": "MobileDetailingBooking/1.0 (booking geocoder)" },
       signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) return null;

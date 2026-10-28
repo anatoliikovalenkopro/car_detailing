@@ -49,7 +49,7 @@ const SOIL: Record<string, number> = { not_visible: 1, light: 1, moderate: 1.1, 
 const round5 = (n: number) => Math.round(n / 5) * 5;
 
 export async function POST(req: Request) {
-  if (!rateLimit(`estimate:${clientIp(req)}`, 6, 3600_000)) {
+  if (!rateLimit(`quote:${clientIp(req)}`, 6, 3600_000)) {
     return NextResponse.json({ error: "Estimate limit reached. Please try again later or call us." }, { status: 429 });
   }
   const parsed = requestSchema.safeParse(await req.json().catch(() => null));
@@ -103,7 +103,7 @@ export async function POST(req: Request) {
       hours: q.hours,
     });
   } catch (e) {
-    console.error("[estimate]", e);
+    console.error("[quote]", e);
     return NextResponse.json({ error: "The estimator is busy right now. Please try again in a minute." }, { status: 502 });
   }
 }

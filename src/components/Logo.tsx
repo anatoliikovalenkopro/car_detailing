@@ -2,23 +2,15 @@ import { BRAND } from "@/lib/brand";
 
 export default function Logo({ className = "" }: { className?: string }) {
   return (
-    <span className={`inline-flex items-center gap-2 font-display text-lg font-bold tracking-tight ${className}`}>
-      <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden>
-        <defs>
-          <linearGradient id="ng" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stopColor="#34d399" />
-            <stop offset=".5" stopColor="#22d3ee" />
-            <stop offset="1" stopColor="#a78bfa" />
-          </linearGradient>
-        </defs>
-        {/* North star sparkle */}
-        <path d="M16 2 L19 13 L30 16 L19 19 L16 30 L13 19 L2 16 L13 13 Z" fill="url(#ng)" />
-        <circle cx="16" cy="16" r="2.4" fill="#05070d" />
-      </svg>
-      <span>
-        North<span className="aurora-text">Glow</span>
-        <span className="sr-only"> — {BRAND.full}</span>
+    <span className={`inline-flex items-center gap-2 text-[17px] font-extrabold tracking-tight ${className}`}>
+      <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand text-white">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+          {/* Water drop with a shine */}
+          <path d="M12 2.5c3.5 4.4 6.5 8 6.5 11.3A6.5 6.5 0 0 1 5.5 13.8C5.5 10.5 8.5 6.9 12 2.5Z" fill="currentColor" />
+          <path d="M9 14.5a3 3 0 0 0 3 3" stroke="#1d4ed8" strokeWidth="1.8" strokeLinecap="round" />
+        </svg>
       </span>
+      {BRAND.name}
     </span>
   );
 }

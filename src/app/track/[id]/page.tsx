@@ -6,7 +6,7 @@ import { BRAND } from "@/lib/brand";
 
 const LiveMap = dynamic(() => import("@/components/LiveMap"), {
   ssr: false,
-  loading: () => <div className="h-full w-full animate-pulse bg-white/5" />,
+  loading: () => <div className="h-full w-full animate-pulse bg-slate-100" />,
 });
 
 type Track = {
@@ -27,7 +27,7 @@ const STEPS: { key: Track["status"]; label: string }[] = [
   { key: "confirmed", label: "Confirmed" },
   { key: "en_route", label: "On the way" },
   { key: "arrived", label: "Arrived" },
-  { key: "completed", label: "Done ✨" },
+  { key: "completed", label: "Done" },
 ];
 
 const HEADLINE: Record<Track["status"], string> = {
@@ -35,7 +35,7 @@ const HEADLINE: Record<Track["status"], string> = {
   confirmed: "You're booked!",
   en_route: "Your detailer is on the way",
   arrived: "We're here!",
-  completed: "All done — enjoy the glow",
+  completed: "All done — enjoy your clean car!",
   cancelled: "This booking was cancelled",
 };
 
@@ -64,53 +64,55 @@ export default function TrackPage({ params }: { params: Promise<{ id: string }> 
     };
   }, [id]);
 
-  if (error) return <p className="mx-auto max-w-md px-4 py-32 text-center text-slate-400">{error}</p>;
-  if (!data) return <p className="mx-auto max-w-md animate-pulse px-4 py-32 text-center text-slate-500">Loading…</p>;
+  if (error) return <p className="mx-auto max-w-md px-4 py-24 text-center text-muted">{error}</p>;
+  if (!data) return <p className="mx-auto max-w-md animate-pulse px-4 py-24 text-center text-muted">Loading…</p>;
 
   const idx = STEPS.findIndex((s) => s.key === data.status);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10">
-      <p className="text-sm text-slate-500">Booking {data.id}</p>
-      <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">
+    <div className="mx-auto max-w-xl px-4 py-5">
+      <p className="text-xs text-muted">
+        {data.id} · {data.date} at {data.slot}
+      </p>
+      <h1 className="mt-1 text-2xl font-extrabold">
         {data.status === "en_route" && data.eta != null ? (
           <>
-            Arriving in <span className="aurora-text">~{data.eta} min</span>
+            Arriving in <span className="text-brand">~{data.eta} min</span>
           </>
         ) : (
           HEADLINE[data.status]
         )}
       </h1>
-      <p className="mt-2 text-slate-400">
-        Hi {data.firstName} 👋 {data.date} at {data.slot} · {data.address}
-      </p>
 
-      <ol className="mt-8 grid grid-cols-4 gap-2">
+      <ol className="mt-4 grid grid-cols-4 gap-1.5">
         {STEPS.map((s, i) => (
           <li key={s.key} className="text-center">
-            <div className={`h-1.5 rounded-full ${i <= idx ? "bg-gradient-to-r from-glow to-glow-2" : "bg-white/10"}`} />
-            <p className={`mt-2 text-xs sm:text-sm ${i <= idx ? "text-white" : "text-slate-500"}`}>{s.label}</p>
+            <div className={`h-1.5 rounded-full ${i <= idx ? "bg-brand" : "bg-slate-200"}`} />
+            <p className={`mt-1.5 text-[11px] sm:text-xs ${i <= idx ? "font-semibold text-ink" : "text-muted"}`}>{s.label}</p>
           </li>
         ))}
       </ol>
 
-      <div className="glass mt-8 h-[60vh] min-h-[360px] overflow-hidden rounded-3xl">
+      <div className="mt-4 h-[55vh] min-h-[320px] overflow-hidden rounded-2xl border border-line">
         <LiveMap customer={data.customer} tech={data.tech} className="h-full w-full" />
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm text-slate-400">
-        <p>
-          {data.status === "en_route"
-            ? data.tech
-              ? `${data.km} km away · updated ${new Date(data.tech.at).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`
-              : "Waiting for the detailer's GPS signal…"
-            : "The live location appears here once your detailer is on the way."}
-        </p>
-        <p>Services: {data.services.join(", ")}</p>
-      </div>
-      <p className="mt-6 text-sm text-slate-500">
-        Questions? Call or text {BRAND.phone}. Please have water and power access ready 💧🔌
+      <p className="mt-3 text-sm text-muted">
+        {data.status === "en_route"
+          ? data.tech
+            ? `${data.km != null ? `${data.km} km away · ` : ""}updated ${new Date(data.tech.at).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`
+            : "Waiting for your detailer's GPS…"
+          : "You'll see your detailer on the map once they're on the way."}
       </p>
+
+      <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm">
+        <p>📍 {data.address}</p>
+        <p className="mt-1">🧽 {data.services.join(", ")}</p>
+        <p className="mt-1">💧🔌 Please have water and power ready.</p>
+      </div>
+      <a href={`tel:${BRAND.phone.replace(/\D/g, "")}`} className="btn-ghost mt-4 w-full">
+        Call / text us · {BRAND.phone}
+      </a>
     </div>
   );
 }

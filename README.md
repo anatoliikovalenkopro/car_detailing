@@ -1,16 +1,18 @@
-# NorthGlow Mobile Detailing ✨
+# Glossmith Mobile Detailing
 
-> **The shine comes to you.** Premium mobile car detailing for Edmonton & area.
+> **Pro detailing at your door.** Mobile car detailing for Edmonton & area.
 
-A modern website for a 100% mobile detailing business. It has:
+> The name is a placeholder: change it in `src/lib/brand.ts` (name, tagline, contacts, booking-number prefix) and the whole site, emails and SMS follow.
 
-- **Landing page** with all services, Edmonton-market prices and a **25% launch promo** (crossed-out regular price).
-- **Online booking** (`/book`): vehicle size → package + add-ons → date/time slot → address. Live quote with GST. The customer must confirm they have **water and power access**. Shows a winter warning if they need exterior work without a garage.
+A compact, phone-first website (white + royal blue) for a 100% mobile detailing business. It has:
+
+- **One-page home** with a tappable price list (switch Car / SUV / Truck), a sticky "Book now" bar on phones,, Edmonton-market prices and a **25% launch promo** (crossed-out regular price).
+- **Online booking** (`/book`), 3 short steps made for phones: service → day chips + time → contact details, with the total always visible at the bottom. Live quote with GST. The customer must confirm they have **water and power access**. Shows a winter warning if they need exterior work without a garage.
 - **Email to you for every new booking**, with a one-click **Confirm** button. Confirming sends the customer an **SMS and email** with their tracking link.
 - **Live tracking** (`/track/NG-XXXXXX?t=…`): an Uber-style map with the technician's live GPS position, ETA and a status timeline. The customer gets an SMS when you're on the way, when you arrive and when the job is done.
 - **Password-protected team panel** (`/tech`): list of bookings, Confirm / On my way / Arrived / Job done buttons, Google Maps navigation, and live GPS sharing from the technician's phone.
-- **AI photo quote** (`/estimate`): the customer uploads 1–4 photos and Claude Haiku rates the condition and recommends services. The **price range comes from your own price list**, never invented by the AI, and the page tells customers that a consultant confirms the true cost.
-- **AI chat assistant** ("Glow"): answers questions about services, prices, area and policies using your real price list.
+- **Quote from photos** (`/quote`): the customer uploads 1–4 photos and Claude Haiku (behind the scenes) rates the condition and recommends services. The **price range comes from your own price list**, never invented by the AI, and the page tells customers that a consultant confirms the true cost.
+- **Chat assistant** on the home page: answers questions about services, prices, area and policies using your real price list.
 
 Tech: Next.js 15 (App Router) + TypeScript + Tailwind CSS 4, Claude Haiku (`claude-haiku-5-5`, the cheapest current model), Resend (email), Twilio (SMS), Leaflet + OpenStreetMap/CARTO (free maps), and Upstash Redis (free tier) for the database.
 
@@ -28,7 +30,7 @@ cp .env.example .env.local   # then fill in values (see below)
 npm run dev                  # http://localhost:3000
 ```
 
-With only `TECH_PASSWORD` and `SESSION_SECRET` set, everything works locally. Emails and SMS are printed in the terminal instead of being sent, and bookings are saved in `.data/db.json`. Add `ANTHROPIC_API_KEY` to turn on the chat bot and the AI quote.
+With only `TECH_PASSWORD` and `SESSION_SECRET` set, everything works locally. Emails and SMS are printed in the terminal instead of being sent, and bookings are saved in `.data/db.json`. Add `ANTHROPIC_API_KEY` to turn on the chat and the photo quote.
 
 Generate a session secret: `openssl rand -hex 32` (or any 64 random characters).
 
@@ -41,7 +43,7 @@ Generate a session secret: `openssl rand -hex 32` (or any 64 random characters).
 | SMS | twilio.com → buy a local 587/780 number | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM` | ~$1.50/month number + ~1–2¢ per SMS in Canada |
 | Database | upstash.com → create Redis database | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Free tier is plenty |
 | Hosting | vercel.com → import the GitHub repo | add all env vars above + `SITE_URL` | Free (Hobby) to start |
-| Domain | e.g. northglow.ca on Namecheap / Cloudflare | — | ~$15/year |
+| Domain | e.g. yourname.ca on Namecheap / Cloudflare | — | ~$15/year |
 
 > On Vercel you **must** set the Upstash variables, because the local `.data` file doesn't persist there.
 
@@ -56,19 +58,20 @@ Optional public vars: `NEXT_PUBLIC_PHONE`, `NEXT_PUBLIC_CONTACT_EMAIL`, `NEXT_PU
 
 ## 4. Change prices, services and text
 
-- Prices, services, add-ons, promo % and service area: **`src/lib/services.ts`**. The site, chat bot and AI estimator all update automatically.
+- Prices, services, add-ons, promo % and service area: **`src/lib/services.ts`**. The site, chat and photo quote all update automatically.
 - Name, phone, hours, time slots: **`src/lib/brand.ts`**
-- Landing page copy, FAQ and promises: **`src/app/page.tsx`**
+- Home page copy and FAQ: **`src/app/page.tsx`**
 
 ## 5. Project map
 
 ```
-src/app/page.tsx              Landing page
+src/app/page.tsx              Home page (compact)
+src/components/PriceList.tsx  Tappable price list
 src/app/book/                 Booking wizard
-src/app/estimate/             AI photo quote
+src/app/quote/                Quote from photos
 src/app/track/[id]/           Customer live-tracking map
 src/app/tech/                 Password-protected team panel
-src/app/api/…                 Booking, confirm, chat, estimate, tracking, tech APIs
+src/app/api/…                 Booking, confirm, chat, quote, tracking, tech APIs
 src/lib/services.ts           Service catalog + pricing (edit me)
 src/lib/notify.ts             Email + SMS templates
 src/lib/ai.ts                 Claude client + business facts for the AI
@@ -82,7 +85,7 @@ src/components/               Header, footer, chat widget, map
 - Tracking links include a random secret token, so booking IDs can't be guessed.
 - The email confirm link is HMAC-signed.
 - The technician's location is only visible to the customer while the booking is "on the way".
-- The AI endpoints are rate-limited per IP to protect your API bill.
+- The chat and quote endpoints are rate-limited per IP to protect your API bill.
 
 ---
 
@@ -99,11 +102,11 @@ src/components/               Header, footer, chat widget, map
 
 **Before you launch, make the promises on the site true:**
 
-- Get **commercial general liability insurance** (the site says "Fully insured", and the 100% mobile model needs it anyway) plus garage-keepers coverage if possible.
+- Get **commercial general liability insurance** plus garage-keepers coverage if possible.
 - Register the business name in Alberta and get an **Edmonton business licence** (and check St. Albert / Strathcona County rules). Register for GST once you pass $30k revenue.
-- Check that **northglow.ca** and **@northglow.yeg** are free and grab them. Search the Alberta corporate registry for the name too.
-- Take before/after photos of every job: they're promised on the site and they're your Instagram content.
+- Once you pick the final name, check that the **.ca domain** and **Instagram handle** are free, and search the Alberta corporate registry.
+- Take before/after photos of every job: they're your Instagram content.
 
 **Pricing:** regular prices sit around the middle of the Edmonton mobile-detailing market (full detail usually $220–$350, ceramic $800–$1,500). The 25% launch promo is set in one line (`PROMO_DISCOUNT`), so set it to `0` when the launch period ends.
 
-**Winter:** from roughly November to March, exterior washing needs a heated garage. The booking form warns customers, and the chat bot knows this rule.
+**Winter:** from roughly November to March, exterior washing needs a heated garage. The booking form warns customers, and the chat assistant knows this rule.

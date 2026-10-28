@@ -1,208 +1,110 @@
 import Link from "next/link";
-import ServiceCard from "@/components/ServiceCard";
+import PriceList from "@/components/PriceList";
 import { BRAND } from "@/lib/brand";
-import { PROMO_LABEL, SERVICES, SERVICE_AREA, money, promo } from "@/lib/services";
-
-const packages = SERVICES.filter((s) => s.kind === "package");
-const addons = SERVICES.filter((s) => s.kind === "addon");
-
-const STEPS = [
-  { n: "01", title: "Book in 60 seconds", text: "Pick a package, a time and your address. No phone tag." },
-  { n: "02", title: "Watch us roll in", text: "Get a text when we're on the way and follow us live on the map." },
-  { n: "03", title: "Enjoy the glow", text: "We detail in your driveway while you work, nap or binge a show." },
-];
-
-const PROMISES = [
-  { icon: "💸", title: "Prices on the website", text: "No “starting at… actually it's double” surprises. Final price agreed before we start." },
-  { icon: "📍", title: "Live arrival tracking", text: "No 4-hour windows. You see exactly where we are and when we'll arrive." },
-  { icon: "📸", title: "Before & after photos", text: "Every job documented and sent to you. Proof, not promises." },
-  { icon: "🤝", title: "Glow guarantee", text: "Missed a spot? Tell us within 48h and we come back to fix it, free." },
-];
+import { PROMO_LABEL, SERVICE_AREA } from "@/lib/services";
 
 const FAQ = [
   {
     q: "What do I need to provide?",
-    a: "Access to an outdoor water tap and a regular power outlet within about 30 m, and space around your car (driveway, garage or private stall). We bring everything else — soaps, towels, vacuum, extractor, polisher.",
+    a: "An outdoor water tap and a power outlet within about 30 m, and space around the car (driveway, garage or private stall). We bring everything else.",
   },
   {
     q: "Do you work in winter?",
-    a: "Yes! Interior services run all year. For exterior washes when it's below ~5°C we need a heated garage. If you don't have one, we'll suggest an interior package and come back for the outside when it warms up.",
+    a: "Yes. Interiors all year. For exterior washes below ~5°C we need a heated garage — otherwise we do the inside and come back for the outside when it's warmer.",
   },
   {
-    q: "Is the online / AI price final?",
-    a: "It's a solid estimate. Extreme dirt, heavy pet hair, mould or paint damage can change the time needed. We always confirm the true price with you before starting — no surprises.",
+    q: "Is the price final?",
+    a: "Website prices and photo quotes are estimates for normal condition. We confirm the final price with you before starting — no surprises.",
   },
   {
-    q: "How do I pay?",
-    a: "After the job: e-Transfer, card tap or cash. No deposit for standard bookings.",
-  },
-  {
-    q: "Can I cancel or reschedule?",
-    a: "Free up to 24 hours before your appointment — just reply to your confirmation text.",
-  },
-  {
-    q: "Which areas do you cover?",
-    a: `${SERVICE_AREA.join(", ")}. Somewhere else nearby? Ask our chat assistant or text us.`,
+    q: "How do I pay? Can I cancel?",
+    a: "Pay after the job: e-Transfer, card or cash. Free cancellation up to 24h before.",
   },
 ];
 
 export default function Home() {
   return (
     <>
-      {/* HERO */}
-      <section className="relative overflow-hidden">
-        <div className="aurora-bg" />
-        <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-28">
-          <p className="inline-flex items-center gap-2 rounded-full border border-glow/30 bg-glow/10 px-3 py-1 text-xs font-medium text-glow">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-glow" /> {PROMO_LABEL}
-          </p>
-          <h1 className="mt-6 max-w-3xl font-display text-5xl leading-[1.05] font-bold tracking-tight sm:text-7xl">
-            Showroom shine. <span className="aurora-text">Your driveway.</span>
+      <div className="mx-auto max-w-3xl px-4">
+        {/* Hero */}
+        <section className="pt-8 pb-6 sm:pt-14">
+          <p className="inline-block rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">{PROMO_LABEL}</p>
+          <h1 className="mt-4 text-[34px] leading-[1.1] font-extrabold tracking-tight sm:text-5xl">
+            Car detailing that <span className="text-brand">comes to you.</span>
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-slate-300">
-            {BRAND.full} brings premium hand detailing to your home or office across {BRAND.city}. Honest prices, live
-            arrival tracking, zero hassle.
+          <p className="mt-3 text-muted">
+            Hand wash, interior and paint care at your home or work — {BRAND.city}.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/book" className="btn-primary text-base">
-              Book your detail →
-            </Link>
-            <Link href="/estimate" className="btn-ghost text-base">
-              📸 Get an AI photo quote
-            </Link>
+          <div className="mt-6 hidden gap-3 sm:flex">
+            <Link href="/book" className="btn-primary">Book now</Link>
+            <Link href="/quote" className="btn-ghost">Get a quote from photos</Link>
           </div>
-          <div className="mt-12 flex flex-wrap gap-x-8 gap-y-3 text-sm text-slate-400">
-            <span>✓ 100% mobile</span>
-            <span>✓ Live tracking + SMS</span>
-            <span>✓ Prices you can see</span>
-            <span>✓ Fully insured</span>
-          </div>
-        </div>
-      </section>
+          <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
+            <li>✓ Book in 1 minute</li>
+            <li>✓ Pay after the job</li>
+            <li>✓ Live arrival map + SMS</li>
+          </ul>
+        </section>
 
-      {/* HOW IT WORKS */}
-      <section className="mx-auto max-w-6xl px-4">
-        <div className="grid gap-4 sm:grid-cols-3">
-          {STEPS.map((s) => (
-            <div key={s.n} className="glass rounded-2xl p-6">
-              <p className="font-display text-sm font-bold aurora-text">{s.n}</p>
-              <h3 className="mt-2 font-display text-xl font-semibold">{s.title}</h3>
-              <p className="mt-2 text-sm text-slate-400">{s.text}</p>
+        {/* Prices */}
+        <section id="services" className="scroll-mt-16">
+          <div className="mb-3 flex items-end justify-between">
+            <h2 className="text-xl font-bold">Prices</h2>
+            <span className="text-xs text-muted">Tap to book · before GST</span>
+          </div>
+          <PriceList />
+        </section>
+
+        {/* How it works */}
+        <section className="mt-10 grid grid-cols-3 gap-2 text-center text-sm">
+          {[
+            ["📅", "Book online"],
+            ["📍", "Track us live"],
+            ["✨", "Enjoy the shine"],
+          ].map(([icon, label]) => (
+            <div key={label} className="rounded-2xl bg-slate-50 px-2 py-4">
+              <p className="text-2xl">{icon}</p>
+              <p className="mt-1 font-semibold">{label}</p>
             </div>
           ))}
-        </div>
-      </section>
+        </section>
 
-      {/* SERVICES */}
-      <section id="services" className="mx-auto max-w-6xl scroll-mt-20 px-4 pt-24">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h2 className="font-display text-4xl font-bold">Packages</h2>
-            <p className="mt-2 text-slate-400">Car prices shown — SUVs and trucks below each card. Before GST.</p>
+        {/* Quote */}
+        <section className="mt-3 flex items-center gap-4 rounded-2xl bg-brand p-5 text-white">
+          <div className="flex-1">
+            <p className="font-bold">Not sure what you need?</p>
+            <p className="text-sm text-white/80">Send 1–4 photos and get a price in seconds.</p>
           </div>
-          <span className="rounded-full bg-glow/10 px-3 py-1 text-sm text-glow">25% off during launch</span>
-        </div>
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {packages.map((s) => (
-            <ServiceCard key={s.id} s={s} />
-          ))}
-        </div>
-
-        <h3 className="mt-16 font-display text-2xl font-bold">Add-ons</h3>
-        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {addons.map((s) => (
-            <div key={s.id} className="glass rounded-xl p-4">
-              <p className="font-semibold">{s.name}</p>
-              <p className="mt-1 text-xs text-slate-400">{s.tagline}</p>
-              <p className="mt-3 text-sm">
-                <span className="font-bold text-glow">+{money(promo(s.price[0]))}</span>{" "}
-                <span className="text-slate-500 line-through">{money(s.price[0])}</span>
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* AI ESTIMATE + TRACKING */}
-      <section className="mx-auto mt-24 grid max-w-6xl gap-5 px-4 lg:grid-cols-2">
-        <div className="glass relative overflow-hidden rounded-3xl p-8">
-          <div className="absolute -top-20 -right-20 h-60 w-60 rounded-full bg-glow-3/20 blur-3xl" />
-          <p className="text-sm font-semibold text-glow-3">AI photo quote</p>
-          <h2 className="mt-2 font-display text-3xl font-bold">Snap. Upload. Know the price.</h2>
-          <p className="mt-3 text-slate-400">
-            Upload up to 4 photos of your car. Our AI checks the dirt, salt, stains and paint, recommends the right
-            package and gives you a price range in seconds.
-          </p>
-          <Link href="/estimate" className="btn-primary mt-6">
-            Try the AI quote
+          <Link href="/quote" className="rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-brand">
+            Get quote
           </Link>
-        </div>
-        <div className="glass relative overflow-hidden rounded-3xl p-8">
-          <div className="absolute -top-20 -right-20 h-60 w-60 rounded-full bg-glow-2/20 blur-3xl" />
-          <p className="text-sm font-semibold text-glow-2">Live tracking</p>
-          <h2 className="mt-2 font-display text-3xl font-bold">Like a food delivery app — for your car.</h2>
-          <p className="mt-3 text-slate-400">
-            On the day, you get a text with a live map link. Watch your detailer drive over with a real-time ETA. No
-            more waiting by the window.
+        </section>
+
+        {/* FAQ */}
+        <section id="faq" className="mt-10 scroll-mt-16">
+          <h2 className="mb-3 text-xl font-bold">Good to know</h2>
+          <div className="divide-y divide-line rounded-2xl border border-line">
+            {FAQ.map((f) => (
+              <details key={f.q} className="group px-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between py-3.5 font-medium">
+                  {f.q}
+                  <span className="ml-3 text-brand transition group-open:rotate-45">+</span>
+                </summary>
+                <p className="pb-4 text-sm text-muted">{f.a}</p>
+              </details>
+            ))}
+          </div>
+          <p className="mt-4 text-sm text-muted">
+            <span className="font-semibold text-ink">We come to:</span> {SERVICE_AREA.join(", ")}.
           </p>
-          <div className="mt-6 flex items-center gap-3 text-sm text-slate-300">
-            <span className="relative flex h-3 w-3">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-glow-2 opacity-60" />
-              <span className="relative inline-flex h-3 w-3 rounded-full bg-glow-2" />
-            </span>
-            “Your detailer is 6 min away”
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
-      {/* PROMISES */}
-      <section className="mx-auto max-w-6xl px-4 pt-24">
-        <h2 className="font-display text-4xl font-bold">
-          Detailing, <span className="aurora-text">minus the sketchy.</span>
-        </h2>
-        <p className="mt-2 max-w-2xl text-slate-400">
-          We started NorthGlow because booking a detailer shouldn't feel like a gamble. Here's our deal with you:
-        </p>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {PROMISES.map((p) => (
-            <div key={p.title} className="glass rounded-2xl p-6">
-              <p className="text-2xl">{p.icon}</p>
-              <h3 className="mt-3 font-semibold">{p.title}</h3>
-              <p className="mt-2 text-sm text-slate-400">{p.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section id="faq" className="mx-auto max-w-3xl scroll-mt-20 px-4 pt-24">
-        <h2 className="text-center font-display text-4xl font-bold">Questions</h2>
-        <div className="mt-10 space-y-3">
-          {FAQ.map((f) => (
-            <details key={f.q} className="glass group rounded-2xl p-5 open:border-glow/30">
-              <summary className="flex cursor-pointer list-none items-center justify-between font-semibold">
-                {f.q}
-                <span className="text-glow transition group-open:rotate-45">+</span>
-              </summary>
-              <p className="mt-3 text-sm text-slate-400">{f.a}</p>
-            </details>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="mx-auto max-w-6xl px-4 pt-24">
-        <div className="relative overflow-hidden rounded-3xl border border-white/10 p-10 text-center sm:p-16">
-          <div className="aurora-bg !inset-0 !h-full" />
-          <div className="relative">
-            <h2 className="font-display text-4xl font-bold sm:text-5xl">Ready to glow?</h2>
-            <p className="mx-auto mt-3 max-w-md text-slate-300">Launch prices won&apos;t last. Grab a spot this week.</p>
-            <Link href="/book" className="btn-primary mt-8 text-base">
-              Book now — 25% off
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Sticky actions on phones */}
+      <div className="fixed inset-x-0 bottom-0 z-40 flex gap-2 border-t border-line bg-white/95 p-3 backdrop-blur sm:hidden">
+        <Link href="/quote" className="btn-ghost flex-1 !py-3">Quote</Link>
+        <Link href="/book" className="btn-primary flex-[2] !py-3">Book now</Link>
+      </div>
     </>
   );
 }

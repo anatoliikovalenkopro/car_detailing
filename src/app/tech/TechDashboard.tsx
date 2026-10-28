@@ -11,12 +11,12 @@ type Row = Omit<Booking, "token"> & { trackUrl: string };
 type Pos = { lat: number; lng: number; accuracy?: number };
 
 const BADGE: Record<BookingStatus, string> = {
-  pending: "bg-amber-400/15 text-amber-300",
-  confirmed: "bg-sky-400/15 text-sky-300",
-  en_route: "bg-glow/15 text-glow",
-  arrived: "bg-violet-400/15 text-violet-300",
-  completed: "bg-white/10 text-slate-400",
-  cancelled: "bg-red-400/15 text-red-300",
+  pending: "bg-amber-100 text-amber-800",
+  confirmed: "bg-blue-100 text-blue-800",
+  en_route: "bg-brand text-white",
+  arrived: "bg-violet-100 text-violet-800",
+  completed: "bg-slate-100 text-muted",
+  cancelled: "bg-red-100 text-red-700",
 };
 
 const today = () => new Date().toLocaleDateString("en-CA");
@@ -132,11 +132,11 @@ export default function TechDashboard() {
   const pending = rows.filter((b) => b.status === "pending").length;
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10">
+    <div className="mx-auto max-w-3xl px-4 py-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl font-bold">Team panel</h1>
-          <p className="text-sm text-slate-400">
+          <h1 className="text-2xl font-extrabold">Team panel</h1>
+          <p className="text-sm text-muted">
             {pending} waiting for confirmation · {shown.length} shown
           </p>
         </div>
@@ -149,36 +149,36 @@ export default function TechDashboard() {
       </div>
 
       {sharing && (
-        <div className="mt-6 flex items-center justify-between gap-3 rounded-2xl border border-glow/40 bg-glow/10 p-4 text-sm">
+        <div className="mt-6 flex items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft p-4 text-sm">
           <span className="flex items-center gap-2">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-glow" />
+            <span className="h-2 w-2 animate-pulse rounded-full bg-brand" />
             Sharing live location for {sharing}. Keep this page open while driving.
           </span>
-          <button onClick={stopSharing} className="text-glow underline">Stop</button>
+          <button onClick={stopSharing} className="font-semibold text-brand underline">Stop</button>
         </div>
       )}
-      {msg && <p className="mt-4 rounded-lg bg-amber-400/10 p-3 text-sm text-amber-200">{msg}</p>}
+      {msg && <p className="mt-4 rounded-lg bg-amber-50 p-3 text-sm text-amber-800">{msg}</p>}
 
       <div className="mt-8 space-y-4">
-        {shown.length === 0 && <p className="text-slate-500">No bookings here yet.</p>}
+        {shown.length === 0 && <p className="text-muted">No bookings here yet.</p>}
         {shown.map((b) => {
           const total = money(b.quoteTotal);
           const nav = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(b.address)}`;
           return (
-            <div key={b.id} className="glass rounded-2xl p-5">
+            <div key={b.id} className="card p-4">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <p className="font-display text-lg font-semibold">
+                  <p className="font-bold">
                     {b.date} · {b.slot} — {b.name}
                   </p>
-                  <p className="text-sm text-slate-400">
+                  <p className="text-sm text-muted">
                     {b.id} · {b.vehicle} ({b.vehicleSize}) · {total}
                   </p>
                 </div>
                 <span className={`rounded-full px-3 py-1 text-xs font-semibold ${BADGE[b.status]}`}>{b.status.replace("_", " ")}</span>
               </div>
 
-              <div className="mt-3 grid gap-1 text-sm text-slate-300 sm:grid-cols-2">
+              <div className="mt-3 grid gap-1 text-sm text-ink sm:grid-cols-2">
                 <p>📍 {b.address}</p>
                 <p>
                   📞 <a href={`tel:${b.phone}`} className="underline">{b.phone}</a> · ✉️ {b.email}

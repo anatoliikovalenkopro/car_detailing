@@ -1,23 +1,30 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
 const GREETING: Msg = {
   role: "assistant",
-  content: "Hey! I'm Glow ✨ Ask me about services, prices, or whether we cover your area.",
+  content: "Hi! 👋 Ask me about prices, services, or if we come to your area.",
 };
 const SUGGESTIONS = ["How much is a full detail?", "Do you come to Sherwood Park?", "What do I need to provide?"];
 
 export default function ChatWidget() {
+  const path = usePathname();
   const [open, setOpen] = useState(false);
   const [msgs, setMsgs] = useState<Msg[]>([GREETING]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const end = useRef<HTMLDivElement>(null);
 
-  useEffect(() => end.current?.scrollIntoView({ behavior: "smooth" }), [msgs, open]);
+  useEffect(() => {
+    end.current?.scrollIntoView({ behavior: "smooth" });
+  }, [msgs, open]);
+
+  // Keep the booking, quote, tracking and team screens uncluttered on phones.
+  if (["/book", "/quote", "/tech", "/track"].some((p) => path.startsWith(p))) return null;
 
   async function send(text: string) {
     const t = text.trim();
@@ -41,25 +48,26 @@ export default function ChatWidget() {
     }
   }
 
+  // Sits above the sticky bottom bars on phones.
   return (
-    <div className="fixed right-4 bottom-4 z-50 flex flex-col items-end gap-3">
+    <div className="fixed right-4 bottom-20 z-50 flex flex-col items-end gap-3 sm:bottom-5">
       {open && (
-        <div className="glass flex h-[min(560px,75vh)] w-[min(380px,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl shadow-2xl">
-          <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+        <div className="card flex h-[min(520px,70vh)] w-[min(370px,calc(100vw-2rem))] flex-col overflow-hidden shadow-2xl">
+          <div className="flex items-center justify-between bg-brand px-4 py-3 text-white">
             <div>
-              <p className="font-display font-semibold">Glow assistant</p>
-              <p className="text-xs text-slate-400">AI · answers are approximate</p>
+              <p className="font-semibold">Questions? Ask here</p>
+              <p className="text-xs text-white/70">Usually instant · prices are approximate</p>
             </div>
-            <button onClick={() => setOpen(false)} className="rounded-lg p-1 text-slate-400 hover:text-white" aria-label="Close chat">
+            <button onClick={() => setOpen(false)} className="rounded-lg p-1 text-white/80 hover:text-white" aria-label="Close chat">
               ✕
             </button>
           </div>
-          <div className="flex-1 space-y-3 overflow-y-auto p-4 text-sm">
+          <div className="flex-1 space-y-3 overflow-y-auto bg-slate-50 p-4 text-sm">
             {msgs.map((m, i) => (
               <div key={i} className={m.role === "user" ? "flex justify-end" : "flex"}>
                 <p
                   className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 ${
-                    m.role === "user" ? "bg-glow text-ink" : "bg-white/5 text-slate-200"
+                    m.role === "user" ? "bg-brand text-white" : "border border-line bg-white text-ink"
                   }`}
                 >
                   {m.content}
@@ -69,13 +77,13 @@ export default function ChatWidget() {
             {msgs.length === 1 && (
               <div className="flex flex-wrap gap-2">
                 {SUGGESTIONS.map((s) => (
-                  <button key={s} onClick={() => send(s)} className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-slate-300 hover:bg-white/5">
+                  <button key={s} onClick={() => send(s)} className="rounded-full border border-brand/30 bg-white px-3 py-1.5 text-xs text-brand hover:bg-brand-soft">
                     {s}
                   </button>
                 ))}
               </div>
             )}
-            {busy && <p className="animate-pulse text-slate-500">Glow is typing…</p>}
+            {busy && <p className="animate-pulse text-muted">Typing…</p>}
             <div ref={end} />
           </div>
           <form
@@ -83,7 +91,7 @@ export default function ChatWidget() {
               e.preventDefault();
               send(input);
             }}
-            className="flex gap-2 border-t border-white/10 p-3"
+            className="flex gap-2 border-t border-line p-3"
           >
             <input
               value={input}
@@ -100,7 +108,7 @@ export default function ChatWidget() {
       )}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="btn-primary h-14 w-14 !rounded-full !p-0 text-2xl"
+        className="grid h-13 w-13 place-items-center rounded-full bg-brand text-xl text-white shadow-lg shadow-brand/30 transition hover:bg-brand-dark"
         aria-label={open ? "Close chat" : "Open chat"}
       >
         {open ? "✕" : "💬"}

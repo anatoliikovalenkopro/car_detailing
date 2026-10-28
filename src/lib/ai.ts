@@ -24,7 +24,7 @@ Requirements at the customer's location: access to an outdoor water tap (hose bi
 Winter (roughly Nov–Mar, or below ~5°C): exterior washes need a heated garage. Without a garage we can still do interior services.
 Prices are in CAD, before ${Math.round(GST_RATE * 100)}% GST. ${PROMO_LABEL} — the promo price is what customers pay right now.
 Payment: e-Transfer, card (tap) or cash after the job. Booking: online at /book; we confirm by text and email. Free cancellation up to 24h before.
-Online prices and AI photo estimates are approximate; extreme dirt, mould, heavy pet hair, biohazards or paint damage can change the price — the final quote is confirmed with our consultant on site or by phone before we start.
+Online prices and photo quotes are approximate; extreme dirt, mould, heavy pet hair, biohazards or paint damage can change the price — the final quote is confirmed with our consultant on site or by phone before we start.
 
 Services and prices (promo price first, regular price in brackets):
 ${priceListText()}
