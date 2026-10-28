@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-grotesk), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-ink: #05070d;
+  --color-panel: #0b1020;
+  --color-line: #1c2437;
+  --color-glow: #34d399;
+  --color-glow-2: #22d3ee;
+  --color-glow-3: #a78bfa;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ink);
+  color: #e2e8f0;
+}
+
+/* Aurora gradient text — the brand signature */
+.aurora-text {
+  background: linear-gradient(90deg, #34d399, #22d3ee 45%, #a78bfa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.aurora-bg {
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 720px;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 50% at 20% 30%, rgb(52 211 153 / 0.28), transparent 70%),
+    radial-gradient(35% 45% at 70% 20%, rgb(34 211 238 / 0.22), transparent 70%),
+    radial-gradient(30% 40% at 55% 60%, rgb(167 139 250 / 0.22), transparent 70%);
+  filter: blur(40px);
+  animation: aurora 18s ease-in-out infinite alternate;
+}
+
+@keyframes aurora {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(3%, -2%, 0) scale(1.06); }
+  100% { transform: translate3d(-3%, 2%, 0) scale(1); }
+}
+
+.glass {
+  background: rgb(15 20 36 / 0.6);
+  border: 1px solid rgb(148 163 184 / 0.12);
+  backdrop-filter: blur(14px);
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 font-semibold text-ink transition;
+  background: linear-gradient(90deg, #34d399, #22d3ee);
+  box-shadow: 0 8px 30px -8px rgb(34 211 238 / 0.55);
+}
+.btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.btn-primary:disabled { opacity: 0.5; transform: none; cursor: not-allowed; }
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 px-5 py-3 font-semibold text-white transition hover:bg-white/5;
+}
+
+.input {
+  @apply w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-glow/60 focus:ring-2 focus:ring-glow/20;
+}
+
+.label {
+  @apply mb-1.5 block text-sm font-medium text-slate-300;
+}
+
+.leaflet-container {
+  background: #0b1020 !important;
+  font-family: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-bg { animation: none; }
+  html { scroll-behavior: auto; }
+}
