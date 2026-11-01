@@ -32,11 +32,12 @@ class RedisKV implements KV {
 }
 
 class FileKV implements KV {
-  // On Vercel only /tmp is writable. Data there is temporary — fine for a preview,
-  // but set the Upstash variables for real bookings.
-  private file = process.env.VERCEL
-    ? path.join("/tmp", "car-detailing-db.json")
-    : path.join(process.cwd(), ".data", "db.json");
+  // On hosted servers (Vercel, Netlify) only /tmp is writable. Data there is
+  // temporary — fine for a preview, but set the Upstash variables for real bookings.
+  private file =
+    process.env.VERCEL || process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME
+      ? path.join("/tmp", "car-detailing-db.json")
+      : path.join(process.cwd(), ".data", "db.json");
   private queue: Promise<unknown> = Promise.resolve();
 
   private async read(): Promise<Record<string, Json>> {
