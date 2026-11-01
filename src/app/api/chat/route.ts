@@ -1,7 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { BUSINESS_FACTS, MODEL, anthropic } from "@/lib/ai";
+import { BUSINESS_FACTS, MODEL, ai } from "@/lib/ai";
 import { BRAND } from "@/lib/brand";
 import { clientIp, rateLimit } from "@/lib/ratelimit";
 
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
   if (!history.length) return NextResponse.json({ error: "Bad request" }, { status: 400 });
 
   try {
-    const response = await anthropic().messages.create({
+    const response = await ai().messages.create({
       model: MODEL,
       max_tokens: 1024,
       output_config: { effort: "low" },

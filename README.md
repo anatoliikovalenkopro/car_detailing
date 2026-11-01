@@ -11,10 +11,10 @@ A compact, phone-first website (white + royal blue) for a 100% mobile detailing 
 - **Email to you for every new booking**, with a one-click **Confirm** button. Confirming sends the customer an **SMS and email** with their tracking link.
 - **Live tracking** (`/track/NG-XXXXXX?t=…`): an Uber-style map with the technician's live GPS position, ETA and a status timeline. The customer gets an SMS when you're on the way, when you arrive and when the job is done.
 - **Password-protected team panel** (`/tech`): list of bookings, Confirm / On my way / Arrived / Job done buttons, Google Maps navigation, and live GPS sharing from the technician's phone.
-- **Quote from photos** (`/quote`): the customer uploads 1–4 photos and Claude Haiku (behind the scenes) rates the condition and recommends services. The **price range comes from your own price list**, never invented by the AI, and the page tells customers that a consultant confirms the true cost.
+- **Quote from photos** (`/quote`): the customer uploads 1–4 photos and an AI model (behind the scenes) rates the condition and recommends services. The **price range comes from your own price list**, never invented by the AI, and the page tells customers that a consultant confirms the true cost.
 - **Chat assistant** on the home page: answers questions about services, prices, area and policies using your real price list.
 
-Tech: Next.js 15 (App Router) + TypeScript + Tailwind CSS 4, Claude Haiku (`claude-haiku-5-5`, the cheapest current model), Resend (email), Twilio (SMS), Leaflet + OpenStreetMap/CARTO (free maps), and Upstash Redis (free tier) for the database.
+Tech: Next.js 15 (App Router) + TypeScript + Tailwind CSS 4, a small, low-cost AI model, Resend (email), Twilio (SMS), Leaflet + OpenStreetMap/CARTO (free maps), and Upstash Redis (free tier) for the database.
 
 ---
 
@@ -30,7 +30,7 @@ cp .env.example .env.local   # then fill in values (see below)
 npm run dev                  # http://localhost:3000
 ```
 
-With only `TECH_PASSWORD` and `SESSION_SECRET` set, everything works locally. Emails and SMS are printed in the terminal instead of being sent, and bookings are saved in `.data/db.json`. Add `ANTHROPIC_API_KEY` to turn on the chat and the photo quote.
+With only `TECH_PASSWORD` and `SESSION_SECRET` set, everything works locally. Emails and SMS are printed in the terminal instead of being sent, and bookings are saved in `.data/db.json`. Add `AI_API_KEY` to turn on the chat and the photo quote.
 
 Generate a session secret: `openssl rand -hex 32` (or any 64 random characters).
 
@@ -38,7 +38,7 @@ Generate a session secret: `openssl rand -hex 32` (or any 64 random characters).
 
 | What | Where | Env vars | Cost |
 |---|---|---|---|
-| Claude AI | console.anthropic.com → API keys | `ANTHROPIC_API_KEY` | Haiku is ~$0.10 / $0.50 per million tokens: a chat reply or photo quote costs a fraction of a cent |
+| AI (chat + photo quote) | your AI provider's console → API keys | `AI_API_KEY` | About $0.10 / $0.50 per million tokens: a chat reply or photo quote costs a fraction of a cent |
 | Email | resend.com → verify your domain | `RESEND_API_KEY`, `EMAIL_FROM`, `OWNER_EMAIL` | Free up to 3,000 emails/month |
 | SMS | twilio.com → buy a local 587/780 number | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM` | ~$1.50/month number + ~1–2¢ per SMS in Canada |
 | Database | upstash.com → create Redis database | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Free tier is plenty |
@@ -48,6 +48,14 @@ Generate a session secret: `openssl rand -hex 32` (or any 64 random characters).
 > On Vercel you **must** set the Upstash variables, because the local `.data` file doesn't persist there.
 
 Optional public vars: `NEXT_PUBLIC_PHONE`, `NEXT_PUBLIC_CONTACT_EMAIL`, `NEXT_PUBLIC_INSTAGRAM`.
+
+## Share a preview with friends (free, 5 minutes)
+
+1. Go to **vercel.com** → sign up with GitHub → **Add New → Project** → import `car_detailing`.
+2. Under **Environment Variables** add at least `TECH_PASSWORD` and `SESSION_SECRET`.
+3. Click **Deploy**. You get a link like `car-detailing.vercel.app` to send to anyone.
+
+Without the Upstash variables, preview bookings are stored temporarily and can disappear — fine for showing people the site, not for real customers.
 
 ## 3. How a booking flows
 
@@ -74,7 +82,7 @@ src/app/tech/                 Password-protected team panel
 src/app/api/…                 Booking, confirm, chat, quote, tracking, tech APIs
 src/lib/services.ts           Service catalog + pricing (edit me)
 src/lib/notify.ts             Email + SMS templates
-src/lib/ai.ts                 Claude client + business facts for the AI
+src/lib/ai.ts                 AI client + business facts for the AI
 src/lib/store.ts              Redis / local-file database
 src/components/               Header, footer, chat widget, map
 ```
