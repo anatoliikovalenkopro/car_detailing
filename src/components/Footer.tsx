@@ -4,7 +4,7 @@ import { BRAND } from "@/lib/brand";
 export default function Footer() {
   return (
     <footer className="mt-16 border-t border-line bg-slate-50 pb-24 sm:pb-8">
-      <div className="mx-auto max-w-3xl px-4 py-8 text-sm text-muted">
+      <div className="mx-auto max-w-6xl px-4 py-8 text-sm text-muted">
         <p className="font-semibold text-ink">{BRAND.full}</p>
         <p className="mt-1">
           <a href={`tel:${BRAND.phone.replace(/\D/g, "")}`} className="hover:text-ink">{BRAND.phone}</a> ·{" "}

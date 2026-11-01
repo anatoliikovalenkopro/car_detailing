@@ -2,6 +2,7 @@
 
 @theme {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --color-brand: #1d4ed8;
   --color-brand-dark: #1e3a8a;
   --color-brand-soft: #eff4ff;

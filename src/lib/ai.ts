@@ -24,6 +24,7 @@ Hours: ${BRAND.hours}. Contact: ${BRAND.phone}, ${BRAND.email}, Instagram @${BRA
 Requirements at the customer's location: access to an outdoor water tap (hose bib) and a standard power outlet within ~30 m, plus space to work around the car. Customer must be able to park on their driveway / private parking (not a busy street).
 Winter (roughly Nov–Mar, or below ~5°C): exterior washes need a heated garage. Without a garage we can still do interior services.
 Prices are in CAD, before ${Math.round(GST_RATE * 100)}% GST. ${PROMO_LABEL} — the promo price is what customers pay right now.
+Bigger jobs (RVs, trailers, boats, motorcycles, company fleets): custom quote — ask them to send photos on /quote or contact us.
 Payment: e-Transfer, card (tap) or cash after the job. Booking: online at /book; we confirm by text and email. Free cancellation up to 24h before.
 Online prices and photo quotes are approximate; extreme dirt, mould, heavy pet hair, biohazards or paint damage can change the price — the final quote is confirmed with our consultant on site or by phone before we start.
 

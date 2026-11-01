@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { SLOTS } from "@/lib/brand";
+import { SERVICE_PHOTOS } from "@/lib/photos";
 import { SERVICES, money, promo, quote, sizeIndex, type VehicleSize } from "@/lib/services";
 
 const packages = SERVICES.filter((s) => s.kind === "package");
@@ -175,9 +176,15 @@ export default function BookPage() {
 
           <div className="space-y-2">
             {packages.map((s) => (
-              <button key={s.id} onClick={() => setPkg(s.id)} data-on={pkg === s.id} className="pick flex w-full items-center gap-3 px-4 py-3">
-                <span className={`grid h-5 w-5 shrink-0 place-items-center rounded-full border-2 ${pkg === s.id ? "border-brand" : "border-slate-300"}`}>
-                  {pkg === s.id && <span className="h-2.5 w-2.5 rounded-full bg-brand" />}
+              <button key={s.id} onClick={() => setPkg(s.id)} data-on={pkg === s.id} className="pick flex w-full items-center gap-3 p-2 pr-4">
+                <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-slate-200">
+                  {SERVICE_PHOTOS[s.id] && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={SERVICE_PHOTOS[s.id].src.replace("w=1200", "w=200")} alt="" loading="lazy" className="h-full w-full object-cover" />
+                  )}
+                  {pkg === s.id && (
+                    <span className="absolute inset-0 grid place-items-center bg-brand/70 text-lg font-bold text-white">✓</span>
+                  )}
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block font-semibold">{s.name}</span>
