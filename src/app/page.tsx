@@ -1,7 +1,8 @@
 import Link from "next/link";
 import PriceList from "@/components/PriceList";
+import ServiceAreaMap from "@/components/ServiceAreaMap";
 import { BRAND } from "@/lib/brand";
-import { PROMO_LABEL, SERVICE_AREA } from "@/lib/services";
+import { PROMO_LABEL } from "@/lib/services";
 
 const FAQ = [
   {
@@ -80,6 +81,12 @@ export default function Home() {
           </Link>
         </section>
 
+        {/* Service area */}
+        <section id="area" className="mt-10 scroll-mt-16">
+          <h2 className="mb-3 text-xl font-bold">Where we work</h2>
+          <ServiceAreaMap />
+        </section>
+
         {/* FAQ */}
         <section id="faq" className="mt-10 scroll-mt-16">
           <h2 className="mb-3 text-xl font-bold">Good to know</h2>
@@ -94,9 +101,6 @@ export default function Home() {
               </details>
             ))}
           </div>
-          <p className="mt-4 text-sm text-muted">
-            <span className="font-semibold text-ink">We come to:</span> {SERVICE_AREA.join(", ")}.
-          </p>
         </section>
       </div>
 

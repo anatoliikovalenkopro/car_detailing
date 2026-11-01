@@ -63,6 +63,13 @@ body {
   font-family: inherit;
 }
 
+/* Service area map: routes flow out from Edmonton, ring pulses */
+.ng-route { animation: ng-flow 1.6s linear infinite; }
+.ng-ring { transform-box: fill-box; transform-origin: center; animation: ng-pulse 2.4s ease-in-out infinite; }
+@keyframes ng-flow { to { stroke-dashoffset: -18; } }
+@keyframes ng-pulse { 50% { opacity: .45; transform: scale(1.08); } }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .ng-route, .ng-ring { animation: none; }
 }
