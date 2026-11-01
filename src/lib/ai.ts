@@ -3,14 +3,15 @@ import Anthropic from "@anthropic-ai/sdk";
 import { BRAND } from "./brand";
 import { GST_RATE, PROMO_LABEL, SERVICE_AREA, priceListText } from "./services";
 
-// Claude Haiku is the cheapest current model — plenty for a support chat and
+// A small, cheap model is plenty for a support chat and
 // for looking at a few car photos.
-export const MODEL = process.env.ANTHROPIC_MODEL || "claude-haiku-5-5";
+export const MODEL = process.env.AI_MODEL || "claude-haiku-5-5";
 
 let client: Anthropic | null = null;
-export function anthropic(): Anthropic {
-  if (!process.env.ANTHROPIC_API_KEY) throw new Error("ANTHROPIC_API_KEY is not set");
-  client ??= new Anthropic();
+export function ai(): Anthropic {
+  const apiKey = process.env.AI_API_KEY;
+  if (!apiKey) throw new Error("AI_API_KEY is not set");
+  client ??= new Anthropic({ apiKey });
   return client;
 }
 

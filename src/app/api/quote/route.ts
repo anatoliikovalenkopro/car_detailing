@@ -2,7 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { BUSINESS_FACTS, MODEL, anthropic } from "@/lib/ai";
+import { BUSINESS_FACTS, MODEL, ai } from "@/lib/ai";
 import { clientIp, rateLimit } from "@/lib/ratelimit";
 import { SERVICE_IDS, quote, type VehicleSize } from "@/lib/services";
 
@@ -74,7 +74,7 @@ export async function POST(req: Request) {
   });
 
   try {
-    const response = await anthropic().messages.parse({
+    const response = await ai().messages.parse({
       model: MODEL,
       max_tokens: 4096,
       output_config: { effort: "low", format: zodOutputFormat(assessment) },
